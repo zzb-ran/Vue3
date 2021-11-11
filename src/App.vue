@@ -2,6 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="https://vuejs.org/images/logo.png" />
     <HelloWorld msg="Welcome to Your Vue.js App" />
+    <button @click="subtractCount">-</button>
     <p>Count: {{ count }}</p>
     <button @click="addCount">+</button>
   </div>
@@ -20,6 +21,9 @@ export default {
     const state = reactive({
       count: 0,
     });
+    const subtractCount = () => {
+      state.count -= 1;
+    };
     const addCount = () => {
       state.count += 1;
     };
@@ -32,6 +36,7 @@ export default {
     );
     return {
       ...toRefs(state),
+      subtractCount,
       addCount,
     };
   },
