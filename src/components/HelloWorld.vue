@@ -10,14 +10,19 @@
         >
       </li>
     </ul>
-    <h2 :id="item.link" v-for="item in data" :style="{ color: item.color }">
+    <h2
+      :ref="setH2List"
+      :id="item.link"
+      v-for="item in data"
+      :style="{ color: item.color }"
+    >
       {{ item.text }}
     </h2>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import data from '../data.js';
 
 export default {
@@ -27,15 +32,45 @@ export default {
   },
   setup() {
     const activeLink = ref(null);
+    const h2List = ref([]);
 
     const handleLink = (link) => {
       activeLink.value = link;
     };
 
+    const setH2List = (el) => {
+      h2List.value.push(el);
+    };
+
+    const onScroll = () => {
+      const offsetTopList = [];
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      let activeIndex = 0;
+
+      h2List.value.forEach((el) => {
+        offsetTopList.push(el.offsetTop);
+      });
+
+      for (let i = 0; i < offsetTopList.length; i++) {
+        if (scrollTop > offsetTopList[i]) {
+          activeIndex = i;
+        }
+      }
+
+      // activeLink.value = data[activeIndex].link;
+      console.log(data[activeIndex].link);
+    };
+
+    onMounted(() => {
+      window.addEventListener('scroll', onScroll, false);
+    });
+
     return {
       data,
       activeLink,
       handleLink,
+      setH2List,
     };
   },
 };
