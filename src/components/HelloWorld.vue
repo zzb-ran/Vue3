@@ -39,6 +39,7 @@ export default {
     };
 
     const setH2List = (el) => {
+      // 加载完获取一遍DOM, 触发scroll事件又会push一遍(Bug)
       h2List.value.push(el);
     };
 
@@ -52,14 +53,13 @@ export default {
         offsetTopList.push(el.offsetTop);
       });
 
-      for (let i = 0; i < offsetTopList.length; i++) {
-        if (scrollTop > offsetTopList[i]) {
+      for (let i = 0; i < data.length; i++) {
+        if (scrollTop >= offsetTopList[i]) {
           activeIndex = i;
         }
       }
 
-      // activeLink.value = data[activeIndex].link;
-      console.log(data[activeIndex].link);
+      activeLink.value = data[activeIndex].link;
     };
 
     onMounted(() => {

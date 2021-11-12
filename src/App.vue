@@ -55,6 +55,7 @@ export default {
   text-align: center;
   color: white;
   background-color: black;
+  padding-bottom: 60px;
 }
 button {
   padding: 5px 10px;
